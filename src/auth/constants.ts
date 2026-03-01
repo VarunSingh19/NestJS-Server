@@ -1,3 +1,3 @@
 export const jwtConstants = {
-    secret:process.env.JWT_SECRET || "nestjs-auth-secret-key"
+    secret:process.env.JWT_SECRET || "nest-backend09"
 }
