@@ -1,98 +1,243 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📚 NestJS Course Management Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A RESTful API server built with **NestJS** for managing courses with user authentication and authorization. Users can register, log in, and perform full CRUD operations on courses — with ownership-based access control ensuring only course creators can modify or delete their own content.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🛠️ Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+| Technology | Purpose |
+|---|---|
+| [NestJS](https://nestjs.com/) v11 | Backend framework |
+| [MongoDB](https://www.mongodb.com/) | NoSQL database |
+| [Mongoose](https://mongoosejs.com/) v9 | MongoDB ODM |
+| [JWT](https://jwt.io/) (`@nestjs/jwt`) | Token-based authentication |
+| [bcrypt](https://www.npmjs.com/package/bcrypt) | Password hashing |
+| [class-validator](https://github.com/typestack/class-validator) | Request DTO validation |
+| [class-transformer](https://github.com/typestack/class-transformer) | DTO transformation |
+| TypeScript | Language |
+| pnpm | Package manager |
 
-## Project setup
+---
 
-```bash
-$ pnpm install
+## 📂 Project Structure
+
+```
+src/
+├── app.module.ts              # Root application module
+├── main.ts                    # Application entry point
+│
+├── auth/                      # Authentication module
+│   ├── auth.module.ts
+│   ├── auth.controller.ts     # Register, Login, Profile endpoints
+│   ├── auth.service.ts        # Auth business logic (hashing, JWT)
+│   ├── auth.guard.ts          # JWT-based route guard
+│   ├── constants.ts
+│   └── dto/
+│       └── registerUser.dto.ts  # RegisterDto & loginDto
+│
+├── user/                      # User module
+│   ├── user.module.ts
+│   ├── user.service.ts        # User CRUD operations
+│   ├── user.types.ts          # User role enums
+│   └── schemas/
+│       └── user.schema.ts     # Mongoose User schema
+│
+└── course/                    # Course module
+    ├── course.module.ts
+    ├── course.controller.ts   # Course CRUD endpoints
+    ├── course.service.ts      # Course business logic
+    ├── dto/
+    │   ├── create-course.dto.ts  # CreateCourseDto
+    │   └── update-course.dto.ts  # UpdateCourseDto (partial)
+    └── schemas/
+        └── course.schema.ts   # Mongoose Course schema
 ```
 
-## Compile and run the project
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **MongoDB** (running locally or a cloud URI)
+- **pnpm** (or npm/yarn)
+
+### Installation
 
 ```bash
-# development
-$ pnpm run start
+# Clone the repository
+git clone <your-repo-url>
+cd NestJs-Backend
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+# Install dependencies
+pnpm install
 ```
 
-## Run tests
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+PORT=3000
+MONGODB_URL=mongodb://localhost:27017/nest-backend
+JWT_SECRET=your-secret-key
+```
+
+### Running the Server
 
 ```bash
-# unit tests
-$ pnpm run test
+# Development (watch mode)
+pnpm start:dev
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+# Production
+pnpm build
+pnpm start:prod
 ```
 
-## Deployment
+The server starts at `http://localhost:3000` by default.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📡 API Endpoints
+
+### 🔐 Authentication — `/auth`
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| `POST` | `/auth/register` | ❌ | Register a new user |
+| `POST` | `/auth/login` | ❌ | Log in and receive a JWT |
+| `GET` | `/auth/profile` | ✅ | Get the authenticated user's profile |
+
+#### `POST /auth/register`
+
+```json
+{
+  "fname": "John",
+  "lname": "Doe",
+  "email": "john@example.com",
+  "password": "securepass123"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIs..."
+}
+```
+
+#### `POST /auth/login`
+
+```json
+{
+  "email": "john@example.com",
+  "password": "securepass123"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIs..."
+}
+```
+
+#### `GET /auth/profile`
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response:**
+```json
+{
+  "_id": "60f7...",
+  "fname": "John",
+  "lname": "Doe",
+  "email": "john@example.com"
+}
+```
+
+---
+
+### 📚 Courses — `/course`
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| `POST` | `/course` | ✅ | Create a new course |
+| `GET` | `/course` | ❌ | Get all courses |
+| `GET` | `/course/:id` | ❌ | Get a course by ID |
+| `PATCH` | `/course/:id` | ✅ | Update a course (owner only) |
+| `DELETE` | `/course/:id` | ✅ | Delete a course (owner only) |
+
+#### `POST /course`
+
+**Headers:** `Authorization: Bearer <token>`
+
+```json
+{
+  "name": "Introduction to NestJS",
+  "description": "Learn the fundamentals of NestJS framework",
+  "level": "Beginner",
+  "price": 499
+}
+```
+
+#### `PATCH /course/:id`
+
+**Headers:** `Authorization: Bearer <token>`
+
+```json
+{
+  "price": 399
+}
+```
+
+> **Note:** Only the user who created the course can update or delete it.
+
+---
+
+## 🔒 Authentication Flow
+
+1. **Register** → Password is hashed with `bcrypt` (10 salt rounds) → User stored in MongoDB → JWT issued
+2. **Login** → Credentials verified against DB → JWT issued
+3. **Protected Routes** → `AuthGuard` extracts and verifies the Bearer token → Attaches user payload (`sub`, `fname`, `lname`, `email`) to the request object
+
+---
+
+## 🧪 Running Tests
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# Unit tests
+pnpm test
+
+# Watch mode
+pnpm test:watch
+
+# Test coverage
+pnpm test:cov
+
+# E2E tests
+pnpm test:e2e
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 📜 Available Scripts
 
-Check out a few resources that may come in handy when working with NestJS:
+| Script | Description |
+|--------|-------------|
+| `pnpm start` | Start the server |
+| `pnpm start:dev` | Start in watch mode (development) |
+| `pnpm start:debug` | Start in debug mode |
+| `pnpm start:prod` | Start the production build |
+| `pnpm build` | Build the project |
+| `pnpm lint` | Run ESLint with auto-fix |
+| `pnpm format` | Format code with Prettier |
+| `pnpm test` | Run unit tests |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 📄 License
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is [UNLICENSED](LICENSE).
