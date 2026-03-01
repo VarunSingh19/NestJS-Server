@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Course Management Platform — Browse, create, and manage courses with ease.">
+  <title>Course Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="logo" id="logo-link">📚 <span>CourseManager</span></a>
+      <div class="nav-actions" id="nav-actions">
+        <!-- Logged out -->
+        <button class="btn btn-ghost" id="nav-login-btn" onclick="showSection('login')">Log In</button>
+        <button class="btn btn-primary" id="nav-register-btn" onclick="showSection('register')">Sign Up</button>
+        <!-- Logged in (hidden by default) -->
+        <span class="user-greeting hidden" id="user-greeting"></span>
+        <button class="btn btn-ghost hidden" id="nav-my-courses-btn" onclick="showSection('my-courses')">My Courses</button>
+        <button class="btn btn-primary hidden" id="nav-create-btn" onclick="showSection('create')">+ New Course</button>
+        <button class="btn btn-danger hidden" id="nav-logout-btn" onclick="logout()">Log Out</button>
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">☰</button>
+    </div>
+  </nav>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast hidden" id="toast"></div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="section hero" id="section-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Learn Without Limits</h1>
+        <p class="hero-subtitle">Discover courses from expert instructors, or create and share your own knowledge with the world.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" onclick="showSection('courses')">Browse Courses</button>
+          <button class="btn btn-ghost btn-lg" id="hero-get-started" onclick="showSection('register')">Get Started Free</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num" id="stat-courses">–</span>
+            <span class="stat-label">Courses</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" id="stat-instructors">–</span>
+            <span class="stat-label">Instructors</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ALL COURSES ===== -->
+  <section class="section hidden" id="section-courses">
+    <div class="container">
+      <div class="section-header">
+        <h2>All Courses</h2>
+        <p class="section-sub">Explore everything available on the platform</p>
+      </div>
+      <div class="course-grid" id="courses-grid">
+        <div class="loader" id="courses-loader">Loading courses…</div>
+      </div>
+      <p class="empty-msg hidden" id="courses-empty">No courses found. Be the first to create one!</p>
+    </div>
+  </section>
+
+  <!-- ===== MY COURSES ===== -->
+  <section class="section hidden" id="section-my-courses">
+    <div class="container">
+      <div class="section-header">
+        <h2>My Courses</h2>
+        <p class="section-sub">Courses you've created</p>
+      </div>
+      <div class="course-grid" id="my-courses-grid"></div>
+      <p class="empty-msg hidden" id="my-courses-empty">You haven't created any courses yet.</p>
+    </div>
+  </section>
+
+  <!-- ===== COURSE DETAIL ===== -->
+  <section class="section hidden" id="section-course-detail">
+    <div class="container">
+      <button class="btn btn-ghost btn-back" onclick="showSection('courses')">← Back to Courses</button>
+      <div class="detail-card" id="course-detail-card"></div>
+    </div>
+  </section>
+
+  <!-- ===== AUTH: LOGIN ===== -->
+  <section class="section hidden" id="section-login">
+    <div class="container auth-container">
+      <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p class="auth-sub">Log in to manage your courses</p>
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="login-submit">Log In</button>
+        </form>
+        <p class="auth-footer">Don't have an account? <a href="#" onclick="showSection('register')">Sign up</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AUTH: REGISTER ===== -->
+  <section class="section hidden" id="section-register">
+    <div class="container auth-container">
+      <div class="auth-card">
+        <h2>Create Account</h2>
+        <p class="auth-sub">Start your learning journey today</p>
+        <form id="register-form" onsubmit="handleRegister(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reg-fname">First Name</label>
+              <input type="text" id="reg-fname" placeholder="John" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-lname">Last Name</label>
+              <input type="text" id="reg-lname" placeholder="Doe" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" placeholder="AlphaNum123" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="register-submit">Create Account</button>
+        </form>
+        <p class="auth-footer">Already have an account? <a href="#" onclick="showSection('login')">Log in</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CREATE / EDIT COURSE ===== -->
+  <section class="section hidden" id="section-create">
+    <div class="container auth-container">
+      <div class="auth-card">
+        <h2 id="course-form-title">Create New Course</h2>
+        <form id="course-form" onsubmit="handleCourseSubmit(event)">
+          <input type="hidden" id="course-edit-id" value="">
+          <div class="form-group">
+            <label for="course-name">Course Name</label>
+            <input type="text" id="course-name" placeholder="Introduction to NestJS" required>
+          </div>
+          <div class="form-group">
+            <label for="course-desc">Description</label>
+            <textarea id="course-desc" rows="3" placeholder="What will students learn?" required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="course-level">Level</label>
+              <select id="course-level" required>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="course-price">Price (₹)</label>
+              <input type="number" id="course-price" min="0" placeholder="499" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="course-submit-btn">Create Course</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Built with <strong>NestJS</strong> &amp; <strong>MongoDB</strong></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
