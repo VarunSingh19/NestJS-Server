@@ -35,7 +35,7 @@ export class CourseService {
     if (!course) {
       throw new NotFoundException(`Course with ID ${id} not found`);
     }
-    if (course.createdBy !== userId) {
+    if (course.createdBy.toString() !== userId) {
       throw new UnauthorizedException('Not authorized to update this course');
     }
     const updated = await this.courseModel.findByIdAndUpdate(id, updateCourseDto, { new: true });
@@ -51,7 +51,7 @@ export class CourseService {
     if (!course) {
       throw new NotFoundException(`Course with ID ${id} not found`);
     }
-    if (course.createdBy !== userId) {
+    if (course.createdBy.toString() !== userId) {
       throw new UnauthorizedException('Not authorized to delete this course');
     }
     await this.courseModel.findByIdAndDelete(id);
