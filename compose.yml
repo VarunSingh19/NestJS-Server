@@ -1,0 +1,81 @@
+version: '3.9'
+services:
+  app1:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=1
+      - PORT=4500
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app2:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=2
+      - PORT=4501
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app3:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=3
+      - PORT=4502
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app4:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=4
+      - PORT=4503
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app5:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=5
+      - PORT=4504
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app6:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=6
+      - PORT=4505
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app7:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=7
+      - PORT=4506
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  app8:
+    build: .
+    image: nests-lb
+    environment:
+      - INSTANCE_ID=8
+      - PORT=4507
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_URL=${MONGODB_URL}
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-lb
+    ports:
+      - '8000:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
