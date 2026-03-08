@@ -1,4 +1,6 @@
-# � NestJS High-Performance Backend
+# 🚀 NestJS High-Performance Backend
+
+![CI Status](https://github.com/VarunSingh19/NestJS-Server/actions/workflows/main.yml/badge.svg)
 
 A production-ready **NestJS** backend engineered for high throughput using **Nginx load balancing**, **Node.js clustering**, **Redis caching**, and **Docker containerization**. Built around a Course Management API with JWT authentication.
 

@@ -8,6 +8,11 @@ services:
       - INSTANCE_ID=1
       - PORT=4500
       - REDIS_HOST=redis
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - MONGODB_URL_FILE=/run/secrets/mongodb_url
+    secrets:
+      - jwt_secret
+      - mongodb_url
     depends_on:
       - redis
     deploy:
@@ -24,6 +29,11 @@ services:
       - INSTANCE_ID=2
       - PORT=4501
       - REDIS_HOST=redis
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - MONGODB_URL_FILE=/run/secrets/mongodb_url
+    secrets:
+      - jwt_secret
+      - mongodb_url
     depends_on:
       - redis
     deploy:
@@ -40,6 +50,11 @@ services:
       - INSTANCE_ID=3
       - PORT=4502
       - REDIS_HOST=redis
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - MONGODB_URL_FILE=/run/secrets/mongodb_url
+    secrets:
+      - jwt_secret
+      - mongodb_url
     depends_on:
       - redis
     deploy:
@@ -56,6 +71,11 @@ services:
       - INSTANCE_ID=4
       - PORT=4503
       - REDIS_HOST=redis
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+      - MONGODB_URL_FILE=/run/secrets/mongodb_url
+    secrets:
+      - jwt_secret
+      - mongodb_url
     depends_on:
       - redis
     deploy:
@@ -86,6 +106,12 @@ services:
       - app2
       - app3
       - app4
+
+secrets:
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt
+  mongodb_url:
+    file: ./secrets/mongodb_url.txt
 
 volumes:
   redis_data:

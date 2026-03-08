@@ -1,5 +1,5 @@
 // ===== STATE =====
-const API = window.location.origin;
+const API = `${window.location.origin}/api/v1`;
 let token = localStorage.getItem('token') || null;
 let currentUser = null;
 let allCourses = [];
