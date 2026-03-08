@@ -22,6 +22,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
 COPY package.json ./
 
-EXPOSE 3000
+EXPOSE 4500
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/cluster.js"]
